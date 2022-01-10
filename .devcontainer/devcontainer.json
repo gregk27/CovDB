@@ -1,0 +1,11 @@
+{
+	"build": {
+		"dockerfile": "Dockerfile",
+	},
+	"postStartCommand": "sh /startup.sh",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/www,type=bind",
+    "workspaceFolder": "/www",
+	"forwardPorts": [
+		80,3306
+	],
+}
