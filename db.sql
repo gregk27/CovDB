@@ -5,19 +5,19 @@ CREATE DATABASE covidDB;
 USE covidDB;
 
 CREATE TABLE Patient (
-    OHIP        VARCHAR(12) PRIMARY KEY, -- Confirm length
+    OHIP        CHAR(12)    PRIMARY KEY, -- 0123456789AB format
     firstName   VARCHAR(32) NOT NULL,
     lastName    VARCHAR(32) NOT NULL,
-    dateOfBirth DATE        NOT NULL
+    dateOfBirth DATE
 );
 
 CREATE TABLE Spouse (
-    OHIP        VARCHAR(12) PRIMARY KEY, -- Confirm length
+    OHIP        VARCHAR(12) PRIMARY KEY, 
     firstName   VARCHAR(32) NOT NULL,
     lastName    VARCHAR(32) NOT NULL,
-    phone       VARCHAR(10) NOT NULL, -- Should be number?
+    phone       char(10), -- 0123456789 FORMAT
     
-    patientOHIP    VARCHAR(12) NOT NULL, -- * invalid character?
+    patientOHIP    char(12) NOT NULL,
 
     FOREIGN KEY (patientOHIP) REFERENCES Patient(OHIP)
         ON UPDATE CASCADE -- If patient OHIP changes, update spouse reference
@@ -26,12 +26,18 @@ CREATE TABLE Spouse (
 
 CREATE TABLE Company (
     name        VARCHAR(32) PRIMARY KEY,
-    address     VARCHAR(64) NOT NULL
+    street      VARCHAR(33) NOT NULL,
+    city        VARCHAR(32) NOT NULL,
+    province    ENUM('AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'NT', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT') NOT NULL,
+    postalCode  CHAR(6)     NOT NULL -- A1B2C3 format
 );
 
 CREATE TABLE Site (
     name        VARCHAR(32) PRIMARY KEY,
-    address     VARCHAR(64) NOT NULL
+    street      VARCHAR(33) NOT NULL,
+    city        VARCHAR(32) NOT NULL,
+    province    ENUM('AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'NT', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT') NOT NULL,
+    postalCode  CHAR(6)     NOT NULL -- A1B2C3 format
 );
 
 CREATE TABLE SiteDate (
@@ -49,10 +55,10 @@ CREATE TABLE Lot (
     number      VARCHAR(6)  PRIMARY KEY,
     productionDate  DATE    NOT NULL,
     expiryDate  DATE        NOT NULL,
-    doses       SMALLINT    NOT NULL,  -- Allows up to 32k doses
+    doses       INTEGER     NOT NULL,  -- Allows up to 32k doses
 
-    company    VARCHAR(32) NOT NULL,
-    site       VARCHAR(32),
+    company     VARCHAR(32) NOT NULL,
+    site        VARCHAR(32),
 
     FOREIGN KEY (company)  REFERENCES Company(name)
         ON UPDATE CASCADE   -- If company name changes, update reference
@@ -83,11 +89,11 @@ CREATE TABLE Vaccination (
 
 CREATE TABLE Practice (
     name        VARCHAR(32) PRIMARY KEY,
-    phone       VARCHAR(10) NOT NULL -- Data type?
+    phone       CHAR(10)
 );
 
 CREATE TABLE HealthcareWorker (
-    ID          INTEGER     PRIMARY KEY AUTO_INCREMENT, -- Should be UUID/randomly assigned for security?
+    ID          INTEGER     PRIMARY KEY AUTO_INCREMENT,
     firstName   VARCHAR(32) NOT NULL,
     lastName    VARCHAR(32) NOT NULL
 );
@@ -115,7 +121,7 @@ CREATE TABLE Doctor (
 
 CREATE TABLE HCWCredential (
     ID          INTEGER     NOT NULL,
-    credential  VARCHAR(4)  NOT NULL, -- How long are creds?
+    credential  VARCHAR(4)  NOT NULL,
 
     PRIMARY KEY (ID, credential),
 
