@@ -92,42 +92,43 @@ CREATE TABLE Practice (
     phone       CHAR(10)
 );
 
-CREATE TABLE HealthcareWorker (
+CREATE TABLE Nurse (
     ID          INTEGER     PRIMARY KEY AUTO_INCREMENT,
     firstName   VARCHAR(32) NOT NULL,
     lastName    VARCHAR(32) NOT NULL
 );
 
-CREATE TABLE Nurse (
-    ID          INTEGER     PRIMARY KEY,
-
-    FOREIGN KEY (ID) REFERENCES HealthcareWorker(ID)
-        ON UPDATE CASCADE -- Update if ID changed
-        ON DELETE CASCADE -- Delete if parent instance deleted
-);
-
 CREATE TABLE Doctor (
-    ID         INTEGER     PRIMARY KEY,
+    ID          INTEGER     PRIMARY KEY AUTO_INCREMENT,
+    firstName   VARCHAR(32) NOT NULL,
+    lastName    VARCHAR(32) NOT NULL,
 
     practice   VARCHAR(32) NOT NULL,
 
-    FOREIGN KEY (ID) REFERENCES HealthcareWorker(ID)
-        ON UPDATE CASCADE -- Update if ID Changed
-        ON DELETE CASCADE, -- Delete if parent instance deleted
     FOREIGN KEY (practice) REFERENCES Practice(name)
         ON UPDATE CASCADE -- Update if name changed
         ON DELETE RESTRICT -- Prevent deletion of the practice if doctor exists
 );
 
-CREATE TABLE HCWCredential (
+CREATE TABLE NurseCredential (
     ID          INTEGER     NOT NULL,
     credential  VARCHAR(4)  NOT NULL,
 
     PRIMARY KEY (ID, credential),
 
-    FOREIGN KEY (ID) REFERENCES HealthcareWorker(ID)
-        ON UPDATE CASCADE -- If HCW ID changes update relationship
-        ON DELETE CASCADE -- If HCW removed update relationship
+    FOREIGN KEY (ID) REFERENCES Nurse(ID)
+        ON UPDATE CASCADE -- If Nurse ID changes update relationship
+        ON DELETE CASCADE -- If Nurse removed update relationship
+);
+CREATE TABLE DoctorCredential (
+    ID          INTEGER     NOT NULL,
+    credential  VARCHAR(4)  NOT NULL,
+
+    PRIMARY KEY (ID, credential),
+
+    FOREIGN KEY (ID) REFERENCES Doctor(ID)
+        ON UPDATE CASCADE -- If Doctor ID changes update relationship
+        ON DELETE CASCADE -- If Doctor removed update relationship
 );
 
 CREATE TABLE NurseWorksAt ( -- How to implement the participation constraint?
