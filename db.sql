@@ -1,23 +1,23 @@
 -- SQL file with commands to rebuild database if container is destroyed
-DROP DATABASE covidDB;
+DROP DATABASE IF EXISTS covidDB;
 CREATE DATABASE covidDB;
 
 USE covidDB;
 
 CREATE TABLE Patient (
-    OHIP        VARCHAR(12)    PRIMARY KEY, -- 0123456789AB format
-    firstName   VARCHAR(32) NOT NULL,
+    OHIP        CHAR(12)    PRIMARY KEY, -- 0123456789AB format
+    firstName   VARCHAR(32) NOT NULL, -- No point to have a patient witout a name
     lastName    VARCHAR(32) NOT NULL,
     dateOfBirth DATE
 );
 
 CREATE TABLE Spouse (
-    OHIP        VARCHAR(12) PRIMARY KEY, 
-    firstName   VARCHAR(32) NOT NULL,
+    OHIP        CHAR(12)    PRIMARY KEY, 
+    firstName   VARCHAR(32) NOT NULL, -- No point to have a spouse without a name
     lastName    VARCHAR(32) NOT NULL,
     phone       char(10), -- 0123456789 FORMAT
     
-    patientOHIP    char(12) NOT NULL,
+    patientOHIP char(12)    NOT NULL,
 
     FOREIGN KEY (patientOHIP) REFERENCES Patient(OHIP)
         ON UPDATE CASCADE -- If patient OHIP changes, update spouse reference
@@ -26,7 +26,7 @@ CREATE TABLE Spouse (
 
 CREATE TABLE Company (
     name        VARCHAR(32) PRIMARY KEY,
-    street      VARCHAR(33),
+    street      VARCHAR(33), -- Companies may not have Canadian addresses
     city        VARCHAR(32),
     province    ENUM('AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'NT', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'),
     postalCode  CHAR(6) -- A1B2C3 format
@@ -34,7 +34,7 @@ CREATE TABLE Company (
 
 CREATE TABLE Site (
     name        VARCHAR(32) PRIMARY KEY,
-    street      VARCHAR(33) NOT NULL,
+    street      VARCHAR(33) NOT NULL, -- A site has to be somewhere
     city        VARCHAR(32) NOT NULL,
     province    ENUM('AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'NT', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT') NOT NULL,
     postalCode  CHAR(6)     NOT NULL -- A1B2C3 format
@@ -52,8 +52,8 @@ CREATE TABLE SiteDate (
 );
 
 CREATE TABLE Lot (
-    number      VARCHAR(6)  PRIMARY KEY,
-    productionDate  DATE    NOT NULL,
+    number      CHAR(6)     PRIMARY KEY,
+    productionDate  DATE    NOT NULL, -- Lot dates are required for safety
     expiryDate  DATE        NOT NULL,
     doses       INTEGER     NOT NULL,  -- Allows up to 32k doses
 
@@ -69,10 +69,10 @@ CREATE TABLE Lot (
 );
 
 CREATE TABLE Vaccination (
-    patient     VARCHAR(12) NOT NULL,
+    patient     CHAR(12)    NOT NULL, -- Update to char for consistency
     site        VARCHAR(32) NOT NULL,
-    lot         VARCHAR(6)  NOT NULL,
-    datetime    DATETIME    NOT NULL,
+    lot         CHAR(6)     NOT NULL,
+    datetime    DATETIME    NOT NULL, -- We need the datetime to know when next dose can be given
 
     PRIMARY KEY (patient, site, lot),
 
@@ -94,16 +94,16 @@ CREATE TABLE Practice (
 
 CREATE TABLE Nurse (
     ID          INTEGER     PRIMARY KEY AUTO_INCREMENT,
-    firstName   VARCHAR(32) NOT NULL,
+    firstName   VARCHAR(32) NOT NULL, -- No point in a nurse wihout a name
     lastName    VARCHAR(32) NOT NULL
 );
 
 CREATE TABLE Doctor (
     ID          INTEGER     PRIMARY KEY AUTO_INCREMENT,
-    firstName   VARCHAR(32) NOT NULL,
+    firstName   VARCHAR(32) NOT NULL, -- No point in a doctor wihout a name
     lastName    VARCHAR(32) NOT NULL,
 
-    practice   VARCHAR(32) NOT NULL,
+    practice   VARCHAR(32)  NOT NULL,
 
     FOREIGN KEY (practice) REFERENCES Practice(name)
         ON UPDATE CASCADE -- Update if name changed
@@ -112,7 +112,7 @@ CREATE TABLE Doctor (
 
 CREATE TABLE NurseCredential (
     ID          INTEGER     NOT NULL,
-    credential  VARCHAR(4)  NOT NULL,
+    credential  CHAR(4)     NOT NULL,
 
     PRIMARY KEY (ID, credential),
 
@@ -122,7 +122,7 @@ CREATE TABLE NurseCredential (
 );
 CREATE TABLE DoctorCredential (
     ID          INTEGER     NOT NULL,
-    credential  VARCHAR(4)  NOT NULL,
+    credential  CHAR(4)     NOT NULL,
 
     PRIMARY KEY (ID, credential),
 
@@ -131,7 +131,7 @@ CREATE TABLE DoctorCredential (
         ON DELETE CASCADE -- If Doctor removed update relationship
 );
 
-CREATE TABLE NurseWorksAt ( -- How to implement the participation constraint?
+CREATE TABLE NurseWorksAt (
     nurse       INTEGER     NOT NULL,
     site        VARCHAR(32) NOT NULL,
 
@@ -274,7 +274,7 @@ INSERT INTO DoctorWorksAt (doctor, site) VALUES
 -- Create Vaccine Companies
 INSERT INTO Company (name, street, city, province, postalCode) VALUES 
     ("Pfizer", "17300 Trans-Canada Hwy", "Kirkland", "QC", "H9J2M5"),
-    ("Moderna", NULL, NULL, NULL, NULL),
+    ("Moderna", NULL, NULL, NULL, NULL), -- No office in Canada
     ("Astrazeneca", "1004 Middlegate Rd", "Mississauga", "ON", "L4Y1M4"),
     ("Johnson & Johnson", "88 McNabb St", "Markham", "ON", "L3R4N6");
 
@@ -344,47 +344,47 @@ INSERT INTO Spouse (OHIP, patientOHIP, firstName, lastName, phone) VALUES
 -- Create vaccination records for patients
 -- NOTE: Dates should correspond with site dates and vaccine production/expiry, but distance between sites is ignored
 INSERT INTO Vaccination (patient, lot, site, datetime) VALUES
-    ("9105776123WQ", "PF0097", "Site 1", "2021-07-10"),
-    ("9105776123WQ", "PF0684", "Site 3", "2021-10-06"),
-    ("9105776123WQ", "MO0981", "Site 2", "2021-12-17"),
-    ("9312153103FV", "MO0045", "Site 2", "2021-07-13"),
-    ("9312153103FV", "MO0981", "Site 2", "2021-12-17"),
-    ("5032767284HN", "AZ0056", "Site 3", "2021-07-30"),
-    ("5032767284HN", "PF0684", "Site 3", "2021-10-06"),
-    ("5032767284HN", "MO0981", "Site 2", "2021-12-17"),
-    ("5073928910QW", "PF0097", "Site 1", "2021-07-10"),
-    ("5073928910QW", "PF0684", "Site 3", "2021-10-06"),
-    ("5073928910QW", "JJ1324", "Site 3", "2022-01-21"),
-    ("6807962640IK", "MO0045", "Site 2", "2021-07-13"),
-    ("6807962640IK", "PF0684", "Site 3", "2021-10-06"),
-    ("6807962640IK", "JJ1324", "Site 3", "2022-01-21"),
-    ("6617139937Z" , "AZ0056", "Site 3", "2021-07-30"),
-    ("6617139937Z" , "PF0684", "Site 3", "2021-11-17"),
-    ("7462257828HY", "AZ0253", "Site 1", "2021-09-14"),
-    ("7462257828HY", "JJ1324", "Site 3", "2021-12-27"),
-    ("5946121838CV", "AZ0656", "Site 2", "2021-09-28"),
-    ("5946121838CV", "MO0981", "Site 2", "2022-01-09"),
-    ("2808599886"  , "PF0684", "Site 3", "2021-10-06"),
-    ("2808599886"  , "MO0981", "Site 2", "2022-01-09"),
-    ("1723284246HY", "AZ0253", "Site 1", "2021-09-14"),
-    ("1723284246HY", "JJ1324", "Site 3", "2021-12-27"),
-    ("3148613050IK", "AZ0656", "Site 2", "2021-09-28"),
-    ("3148613050IK", "JJ1324", "Site 3", "2021-12-27"),
-    ("9276866509IK", "PF0684", "Site 3", "2021-10-06"),
-    ("9276866509IK", "MO0981", "Site 2", "2022-01-09"),
-    ("5593795262HN", "PF0097", "Site 1", "2021-07-10"),
-    ("5593795262HN", "PF0684", "Site 3", "2021-11-17"),
-    ("3949215294ZX", "JJ0415", "Site 2", "2021-07-13"),
-    ("3949215294ZX", "PF0684", "Site 3", "2021-11-17"),
-    ("3041640915"  , "AZ0056", "Site 3", "2021-07-30"),
-    ("3041640915"  , "PF0684", "Site 3", "2021-11-17"),
-    ("1148960149UI", "MO0981", "Site 2", "2021-11-15"),
-    ("6893711174QW", "PF0684", "Site 3", "2021-11-17"),
-    ("2313661373Z" , "JJ1324", "Site 3", "2021-12-07"),
-    ("1282866856HN", "PF1347", "Site 1", "2021-12-08"),
-    ("8156639125QW", "MO0981", "Site 2", "2021-12-17"),
-    ("3671530046"  , "JJ1324", "Site 3", "2021-12-07"),
-    ("2740181330UI", "PF1347", "Site 1", "2021-12-08"),
-    ("7328810635UI", "MO0981", "Site 2", "2021-12-17"),
-    ("3120625906Z" , "MO0981", "Site 2", "2022-01-09"),
-    ("6491122755QW", "JJ1324", "Site 3", "2022-01-21");
+    ("9105776123WQ", "PF0097", "Site 1", "2021-07-10 09:45:00"),
+    ("9105776123WQ", "PF0684", "Site 3", "2021-10-06 14:30:00"),
+    ("9105776123WQ", "MO0981", "Site 2", "2021-12-17 16:30:00"),
+    ("9312153103FV", "MO0045", "Site 2", "2021-07-13 12:15:00"),
+    ("9312153103FV", "MO0981", "Site 2", "2021-12-17 09:15:00"),
+    ("5032767284HN", "AZ0056", "Site 3", "2021-07-30 13:00:00"),
+    ("5032767284HN", "PF0684", "Site 3", "2021-10-06 15:45:00"),
+    ("5032767284HN", "MO0981", "Site 2", "2021-12-17 09:30:00"),
+    ("5073928910QW", "PF0097", "Site 1", "2021-07-10 16:15:00"),
+    ("5073928910QW", "PF0684", "Site 3", "2021-10-06 09:15:00"),
+    ("5073928910QW", "JJ1324", "Site 3", "2022-01-21 13:15:00"),
+    ("6807962640IK", "MO0045", "Site 2", "2021-07-13 11:00:00"),
+    ("6807962640IK", "PF0684", "Site 3", "2021-10-06 12:00:00"),
+    ("6807962640IK", "JJ1324", "Site 3", "2022-01-21 14:45:00"),
+    ("6617139937Z" , "AZ0056", "Site 3", "2021-07-30 12:00:00"),
+    ("6617139937Z" , "PF0684", "Site 3", "2021-11-17 11:30:00"),
+    ("7462257828HY", "AZ0253", "Site 1", "2021-09-14 09:00:00"),
+    ("7462257828HY", "JJ1324", "Site 3", "2021-12-27 09:00:00"),
+    ("5946121838CV", "AZ0656", "Site 2", "2021-09-28 12:15:00"),
+    ("5946121838CV", "MO0981", "Site 2", "2022-01-09 14:15:00"),
+    ("2808599886"  , "PF0684", "Site 3", "2021-10-06 16:15:00"),
+    ("2808599886"  , "MO0981", "Site 2", "2022-01-09 15:45:00"),
+    ("1723284246HY", "AZ0253", "Site 1", "2021-09-14 10:30:00"),
+    ("1723284246HY", "JJ1324", "Site 3", "2021-12-27 14:30:00"),
+    ("3148613050IK", "AZ0656", "Site 2", "2021-09-28 16:30:00"),
+    ("3148613050IK", "JJ1324", "Site 3", "2021-12-27 11:30:00"),
+    ("9276866509IK", "PF0684", "Site 3", "2021-10-06 14:45:00"),
+    ("9276866509IK", "MO0981", "Site 2", "2022-01-09 11:15:00"),
+    ("5593795262HN", "PF0097", "Site 1", "2021-07-10 12:00:00"),
+    ("5593795262HN", "PF0684", "Site 3", "2021-11-17 16:00:00"),
+    ("3949215294ZX", "JJ0415", "Site 2", "2021-07-13 13:30:00"),
+    ("3949215294ZX", "PF0684", "Site 3", "2021-11-17 16:00:00"),
+    ("3041640915"  , "AZ0056", "Site 3", "2021-07-30 10:00:00"),
+    ("3041640915"  , "PF0684", "Site 3", "2021-11-17 12:30:00"),
+    ("1148960149UI", "MO0981", "Site 2", "2021-11-15 15:15:00"),
+    ("6893711174QW", "PF0684", "Site 3", "2021-11-17 13:30:00"),
+    ("2313661373Z" , "JJ1324", "Site 3", "2021-12-07 09:00:00"),
+    ("1282866856HN", "PF1347", "Site 1", "2021-12-08 14:30:00"),
+    ("8156639125QW", "MO0981", "Site 2", "2021-12-17 13:00:00"),
+    ("3671530046"  , "JJ1324", "Site 3", "2021-12-07 17:00:00"),
+    ("2740181330UI", "PF1347", "Site 1", "2021-12-08 10:15:00"),
+    ("7328810635UI", "MO0981", "Site 2", "2021-12-17 14:45:00"),
+    ("3120625906Z" , "MO0981", "Site 2", "2022-01-09 13:15:00"),
+    ("6491122755QW", "JJ1324", "Site 3", "2022-01-21 14:30:00");
