@@ -49,6 +49,28 @@ header {
     max-width: 25%;
     min-width: fit-content;
     box-shadow: 0.1em 0.1em 0.1em #00000088;
+
+    display:grid;
+    grid-template-areas: 
+        "icon . heading" 
+        "icon . text";
+    grid-template-columns: auto 0.5em 1fr;
+}
+
+.panel i {
+    grid-area: icon;
+    text-align: center;
+    font-size: 4em;
+    margin:auto;
+}
+
+.panel h2 {
+    grid-area: heading;
+    margin: 0.25em 0 0 0;
+}
+
+.panel p {
+    grid-area: text;
 }
 
 .clickable {
