@@ -44,7 +44,7 @@ include_once(BACKEND_DIR."sites.php");
                     ?>
                 </select>
                 <label for="date">Date Administered:</label><select id="date"></select>
-                <label for="lot">Lot Number:</label><input id="lot" />
+                <label for="lot">Lot Number:</label><select id="lot"> </select>
             </form>
         </div>
     </section>

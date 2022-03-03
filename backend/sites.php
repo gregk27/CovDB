@@ -22,3 +22,13 @@ function getSiteDates(string $site) {
     if($out == null) $out = [];
     return $out;
 }
+
+function getSiteLotNumbers(string $site) {
+    global $conn;
+    $stmt = $conn->prepare("SELECT number FROM Lot WHERE site=:site");
+    $stmt->bindParam(":site", $site);
+    $stmt->execute();
+    $out = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+    if($out == null) $out = [];
+    return $out;
+}

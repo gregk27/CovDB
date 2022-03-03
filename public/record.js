@@ -57,18 +57,28 @@ function checkPatient(ohip) {
 function setDates(site){
     /** @type {HTMLSelectElement} */
     let dateInput = document.getElementById("date");
-    // Disable while updating dates.
+    let lotInput = document.getElementById("lot");
+    // Disable while updating.
     dateInput.disabled = true;
-    fetch(`/api/getSiteDates?site=${site}`).then((resp)=>resp.json()).then((res)=> {
+    lotInput.disabled = true;
+    fetch(`/api/getSiteData?site=${site}`).then((resp)=>resp.json()).then((res)=> {
         if(res.success){
             // Remove existing options
             for(let i=dateInput.options.length-1; i>=0; i--){
                 dateInput.remove(i);
             }
-            for(let d of res.dates){
+            for(let d of res.data.dates){
                 dateInput.add(new Option(d, d));
             }
             dateInput.disabled = false;
+            // Remove existing options
+            for(let i=lotInput.options.length-1; i>=0; i--){
+                lotInput.remove(i);
+            }
+            for(let d of res.data.lots){
+                lotInput.add(new Option(d, d));
+            }
+            lotInput.disabled = false;
         } else {
         }
     })

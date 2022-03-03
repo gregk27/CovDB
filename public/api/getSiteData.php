@@ -9,4 +9,5 @@ if(!checkGet(["site"], $missing)){
 
 
 $dates = getSiteDates($_GET["site"]);
-apiResp(true, "", "dates", $dates);
+$lots = getSiteLotNumbers($_GET["site"]);
+apiResp(true, "", "data", array("dates"=>$dates, "lots"=>$lots));
