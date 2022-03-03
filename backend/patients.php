@@ -13,3 +13,9 @@ function getPatient(string $ohip): Patient | null {
     }
     return Patient::fromAssoc($res[0]);
 }
+
+function addPatient(Patient $p){
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO Patient (OHIP, firstName, lastName, dateOfBirth) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$p->OHIP, $p->firstName, $p->lastName, $p->dateOfBirth]);
+}

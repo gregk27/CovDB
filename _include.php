@@ -31,6 +31,20 @@ function checkGet($values, &$missing=[]){
 }
 
 /**
+ * Check that passed values exist in the POST statement
+ * @param $values array Array of values to check for
+ * @param $missing array Optional array to be populated with missing value names
+ * @return bool false if a value is missing
+ */
+function checkPost($values, &$missing=[]){
+    foreach($values as $val) {
+        if (!isset($_POST[$val]))
+            array_push($missing, $val);
+    }
+    return count($missing) == 0;
+}
+
+/**
  * Output JSON api response
  * @param $success bool Success flag
  * @param $error string Error message, default ""
