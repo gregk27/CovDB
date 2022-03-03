@@ -8,7 +8,7 @@ class Vaccination {
 	public string $patient;
 	public string $site;
 	public string $lot;
-	public int $datetime;
+	public string $datetime;
 
 	public function __construct($patient, $site, $lot, $datetime, ) {
 		$this->patient = $patient;
@@ -17,7 +17,11 @@ class Vaccination {
 		$this->datetime = $datetime;
 	}
 
-	public function fromAssoc($assoc) {
+	public function toAssoc() {
+		return get_object_vars($this);
+	}
+
+	public static function fromAssoc($assoc) {
 		return new Vaccination(
 			$assoc["patient"],
 			$assoc["site"],

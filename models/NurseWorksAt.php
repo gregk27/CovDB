@@ -13,7 +13,11 @@ class NurseWorksAt {
 		$this->site = $site;
 	}
 
-	public function fromAssoc($assoc) {
+	public function toAssoc() {
+		return get_object_vars($this);
+	}
+
+	public static function fromAssoc($assoc) {
 		return new NurseWorksAt(
 			$assoc["nurse"],
 			$assoc["site"],

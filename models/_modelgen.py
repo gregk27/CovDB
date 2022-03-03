@@ -11,8 +11,8 @@ types = {
     "FLOAT": "float",
     "CHAR": "string",
     "VARCHAR": "string",
-    "DATE": "int",
-    "DATETIME": "int",
+    "DATE": "string",
+    "DATETIME": "string",
     "ENUM": "string"
 }
 
@@ -29,7 +29,8 @@ def buildStr(name, cols):
     outstr += ") {\n"
     for col in cols:
         outstr += f"\t\t$this->{col[0]} = ${col[0]};\n"
-    outstr += "\t}\n\n\tpublic function fromAssoc($assoc) {\n"
+    outstr += "\t}\n\n\tpublic function toAssoc() {\n\t\treturn get_object_vars($this);\n"
+    outstr += "\t}\n\n\tpublic static function fromAssoc($assoc) {\n"
     outstr += f"\t\treturn new {name}(\n"
     for col in cols:
         outstr += f"\t\t\t$assoc[\"{col[0]}\"],\n"

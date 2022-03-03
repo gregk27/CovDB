@@ -6,8 +6,8 @@
  */
 class Lot {
 	public string $number;
-	public int $productionDate;
-	public int $expiryDate;
+	public string $productionDate;
+	public string $expiryDate;
 	public int $doses;
 	public string $company;
 	public string $site;
@@ -21,7 +21,11 @@ class Lot {
 		$this->site = $site;
 	}
 
-	public function fromAssoc($assoc) {
+	public function toAssoc() {
+		return get_object_vars($this);
+	}
+
+	public static function fromAssoc($assoc) {
 		return new Lot(
 			$assoc["number"],
 			$assoc["productionDate"],

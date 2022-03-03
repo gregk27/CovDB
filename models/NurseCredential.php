@@ -13,7 +13,11 @@ class NurseCredential {
 		$this->credential = $credential;
 	}
 
-	public function fromAssoc($assoc) {
+	public function toAssoc() {
+		return get_object_vars($this);
+	}
+
+	public static function fromAssoc($assoc) {
 		return new NurseCredential(
 			$assoc["ID"],
 			$assoc["credential"],

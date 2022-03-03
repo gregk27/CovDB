@@ -8,7 +8,7 @@ class Patient {
 	public string $OHIP;
 	public string $firstName;
 	public string $lastName;
-	public int $dateOfBirth;
+	public string $dateOfBirth;
 
 	public function __construct($OHIP, $firstName, $lastName, $dateOfBirth, ) {
 		$this->OHIP = $OHIP;
@@ -17,7 +17,11 @@ class Patient {
 		$this->dateOfBirth = $dateOfBirth;
 	}
 
-	public function fromAssoc($assoc) {
+	public function toAssoc() {
+		return get_object_vars($this);
+	}
+
+	public static function fromAssoc($assoc) {
 		return new Patient(
 			$assoc["OHIP"],
 			$assoc["firstName"],

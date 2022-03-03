@@ -6,14 +6,18 @@
  */
 class SiteDate {
 	public string $site;
-	public int $date;
+	public string $date;
 
 	public function __construct($site, $date, ) {
 		$this->site = $site;
 		$this->date = $date;
 	}
 
-	public function fromAssoc($assoc) {
+	public function toAssoc() {
+		return get_object_vars($this);
+	}
+
+	public static function fromAssoc($assoc) {
 		return new SiteDate(
 			$assoc["site"],
 			$assoc["date"],
