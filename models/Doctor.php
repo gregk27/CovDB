@@ -23,6 +23,6 @@ class Doctor {
 			$assoc["firstName"],
 			$assoc["lastName"],
 			$assoc["practice"],
-		)
+		);
 	}
 }

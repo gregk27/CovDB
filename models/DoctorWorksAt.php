@@ -17,6 +17,6 @@ class DoctorWorksAt {
 		return new DoctorWorksAt(
 			$assoc["doctor"],
 			$assoc["site"],
-		)
+		);
 	}
 }

@@ -26,6 +26,6 @@ class Site {
 			$assoc["city"],
 			$assoc["province"],
 			$assoc["postalCode"],
-		)
+		);
 	}
 }

@@ -26,6 +26,6 @@ class Spouse {
 			$assoc["lastName"],
 			$assoc["phone"],
 			$assoc["patientOHIP"],
-		)
+		);
 	}
 }

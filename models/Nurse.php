@@ -20,6 +20,6 @@ class Nurse {
 			$assoc["ID"],
 			$assoc["firstName"],
 			$assoc["lastName"],
-		)
+		);
 	}
 }

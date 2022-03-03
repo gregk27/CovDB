@@ -23,6 +23,6 @@ class Vaccination {
 			$assoc["site"],
 			$assoc["lot"],
 			$assoc["datetime"],
-		)
+		);
 	}
 }

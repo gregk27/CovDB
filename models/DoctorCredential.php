@@ -17,6 +17,6 @@ class DoctorCredential {
 		return new DoctorCredential(
 			$assoc["ID"],
 			$assoc["credential"],
-		)
+		);
 	}
 }

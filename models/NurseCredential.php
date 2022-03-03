@@ -17,6 +17,6 @@ class NurseCredential {
 		return new NurseCredential(
 			$assoc["ID"],
 			$assoc["credential"],
-		)
+		);
 	}
 }

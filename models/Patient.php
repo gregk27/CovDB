@@ -23,6 +23,6 @@ class Patient {
 			$assoc["firstName"],
 			$assoc["lastName"],
 			$assoc["dateOfBirth"],
-		)
+		);
 	}
 }

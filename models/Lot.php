@@ -29,6 +29,6 @@ class Lot {
 			$assoc["doses"],
 			$assoc["company"],
 			$assoc["site"],
-		)
+		);
 	}
 }

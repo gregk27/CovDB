@@ -34,7 +34,7 @@ def buildStr(name, cols):
     for col in cols:
         outstr += f"\t\t\t$assoc[\"{col[0]}\"],\n"
     outstr = outstr.rstrip(',')
-    outstr += "\t\t)\n\t}\n}"
+    outstr += "\t\t);\n\t}\n}"
     return outstr
 
 

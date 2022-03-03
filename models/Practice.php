@@ -17,6 +17,6 @@ class Practice {
 		return new Practice(
 			$assoc["name"],
 			$assoc["phone"],
-		)
+		);
 	}
 }

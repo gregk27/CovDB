@@ -17,6 +17,6 @@ class SiteDate {
 		return new SiteDate(
 			$assoc["site"],
 			$assoc["date"],
-		)
+		);
 	}
 }

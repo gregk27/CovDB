@@ -26,6 +26,6 @@ class Company {
 			$assoc["city"],
 			$assoc["province"],
 			$assoc["postalCode"],
-		)
+		);
 	}
 }
