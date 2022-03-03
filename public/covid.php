@@ -15,26 +15,27 @@
         <h1>Covid Vaccination Database</h1>
     </header>
     <section class="panelgrid">
-        <div class="panel clickable">
+        <a class="panel clickable" href="/record">
             <i class="fa-solid fa-file-medical"></i>
             <h2>Record Vaccination</h2>
             <p>Submit a record of your vaccination</p>
-        </div>
-        <div class="panel clickable">
+        </a>
+        <a class="panel clickable" href="">
             <i class="fa-solid fa-magnifying-glass"></i>
             <h2>Search for Vaccine</h2>
             <p>Search sites to find a vaccine</p>
-        </div>
-        <div class="panel clickable">
+        </a>
+        <a class="panel clickable" href="">
             <i class="fa-solid fa-syringe"></i>
             <h2>Check Status</h2>
             <p>Check your vaccination status</p>
-        </div>
-        <div class="panel clickable">
+        </a>
+        <a class="panel clickable" href="">
             <i class="fa-solid fa-user-doctor"></i>
             <h2>Worker Lookup</h2>
             <p>See who's working at a site</p>
-        </div>
+        </a>
     </section>
 </body>
+
 </html>

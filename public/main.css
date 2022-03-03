@@ -76,6 +76,7 @@ header {
 .clickable {
     transition: all 100ms;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .clickable:hover {
