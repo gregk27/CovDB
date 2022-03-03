@@ -1,0 +1,61 @@
+body {
+    font-family: sans-serif;
+    --colour-primary: #36a5ff;
+    --colour-primary-light: #7bd6ff;
+    --colour-primary-dark: #0077cb;
+    --colour-secondary: #303f9f;
+    --colour-secondary-light: #666ad1;
+    --colour-secondary-dark: #001970;
+    --colour-background: #f5f5f6;
+    --colour-surface: #e1e2e1;
+
+    --colour-on-primary: #000000;
+    --colour-on-primary-dark: #FFFFFF;
+    --colour-on-secondary: #FFFFFF;
+    --colour-on-background: #000000;
+    --colour-on-surface: #000000;
+
+    background-color: var(--colour-background);
+    color: var(--colour-on-background);
+    margin:0;
+    padding:0;
+    min-width: fit-content;
+}
+
+header {
+    background-color: var(--colour-primary);
+    color: var(--colour-on-primary);
+    padding:1em;
+    font-size:150%;
+    margin-bottom: 1em;
+    min-width: fit-content;
+    box-shadow: 0.1em 0.1em 0.1em #00000088;
+}
+
+.panelgrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex-basis: 0;
+    margin:0.5em 2em;
+}
+
+.panel {
+    background-color: var(--colour-surface);
+    color: var(--colour-on-surface);
+    padding: 0.5em 1em;
+    margin: 1em;
+    flex-grow: 1;
+    max-width: 25%;
+    min-width: fit-content;
+    box-shadow: 0.1em 0.1em 0.1em #00000088;
+}
+
+.clickable {
+    transition: all 100ms;
+    cursor: pointer;
+}
+
+.clickable:hover {
+    transform: scale3d(1.15, 1.15, 2);
+}
