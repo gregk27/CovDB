@@ -12,7 +12,8 @@ try {
 define("BACKEND_DIR", $_SERVER["DOCUMENT_ROOT"] . "/backend/");
 define("MODELS_DIR", $_SERVER["DOCUMENT_ROOT"] . "/models/");
 define("API_DIR", $_SERVER["DOCUMENT_ROOT"] . "/api/");
-define("IMAGES_DIR", $_SERVER["DOCUMENT_ROOT"] . "/public/images/");
+define("PUBLIC_DIR", $_SERVER["DOCUMENT_ROOT"] . "/public/");
+define("COMMON_ELEMENTS", $_SERVER["DOCUMENT_ROOT"] . "/public/common.php");
 
 // API Utilities migrated from past project: https://github.com/gregk27/TasQ-Backend/blob/master/backend/utils.php
 

@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html>
-<?php
+<?php 
+    define("NAME", "Vaccine Availability");
     include_once($_SERVER["DOCUMENT_ROOT"]."/_include.php");
     include_once(BACKEND_DIR."vaccines.php");
+    include_once(BACKEND_DIR."sites.php");
+    include_once(COMMON_ELEMENTS);
 ?>
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>COVID DB</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <!-- Inlcude FontAwesome for icons -->
-    <script src="https://kit.fontawesome.com/60394e1dab.js" crossorigin="anonymous"></script>
+    <?php insertMeta(); ?>
     <script src='main.js'></script>
 </head>
 <body>
-    <header>
-        <h1>CoVDB - Availability</h1>
-    </header>
+    <?php
+        insertHeader();
+    ?>
     <section class="panelgrid">
         <?php
             foreach(getCompanies() as $c){
@@ -33,7 +30,7 @@
     <?php if(isset($_GET["vax"])){ ?>
     <section class="panelgrid">
         <?php
-            foreach(getSites($_GET["vax"]) as $s){
+            foreach(getSitesWithVax($_GET["vax"]) as $s){
                 echo '<a class="panel"><h2>'.$s["site"]->name." - ".$s["doses"].'</h2><p>'.$s["site"]->street.' '.$s["site"]->city.', '.$s["site"]->province.'</p></a>';
             }
         ?>

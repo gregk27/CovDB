@@ -1,24 +1,18 @@
 <!DOCTYPE html>
 <html>
 <?php 
-include_once($_SERVER["DOCUMENT_ROOT"]."/_include.php");
-include_once(BACKEND_DIR."sites.php");
+    define("NAME", "Record Vaccination");
+    include_once($_SERVER["DOCUMENT_ROOT"]."/_include.php");
+    include_once(BACKEND_DIR."sites.php");
+    include_once(COMMON_ELEMENTS);
 ?>
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>CoVDB - Record</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <!-- Inlcude FontAwesome for icons -->
-    <script src="https://kit.fontawesome.com/60394e1dab.js" crossorigin="anonymous"></script>
+    <?php insertMeta(); ?>
     <script src='record.js'></script>
 </head>
 
 <body>
-    <header>
-        <h1>CoVDB - Record Vaccine</h1>
-    </header>
+    <?php insertHeader(); ?>
     <section class="panelgrid">
         <div class="panel">
             <i class="fa-solid fa-user"></i>

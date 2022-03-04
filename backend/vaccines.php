@@ -15,7 +15,7 @@ function getCompanies() {
     return $out;
 }
 
-function getSites(string $company) {
+function getSitesWithVax(string $company) {
     global $conn;
     $stmt = $conn->prepare("SELECT Site.*, SUM(Lot.doses) AS doses FROM Company JOIN Lot on Lot.company = Company.name JOIN Site on Lot.site = Site.name WHERE Company=? GROUP BY name");
     $stmt->execute([$company]);
