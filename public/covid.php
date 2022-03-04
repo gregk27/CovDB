@@ -20,7 +20,7 @@
             <h2>Record Vaccination</h2>
             <p>Submit a record of your vaccination</p>
         </a>
-        <a class="panel clickable" href="">
+        <a class="panel clickable" href="availability">
             <i class="fa-solid fa-magnifying-glass"></i>
             <h2>Search for Vaccine</h2>
             <p>Search sites to find a vaccine</p>
