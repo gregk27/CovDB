@@ -8,6 +8,11 @@
 <head>
     <?php insertMeta(); ?>
     <script src='main.js'></script>
+    <style>
+        .panel {
+            max-width: 25%;
+        }
+    </style>
 </head>
 <body>
     <?php insertHeader(); ?>

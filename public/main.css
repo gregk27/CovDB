@@ -46,7 +46,6 @@ header {
     padding: 0.5em 1em;
     margin: 1em;
     flex-grow: 1;
-    max-width: 25%;
     min-width: fit-content;
     box-shadow: 0.1em 0.1em 0.1em #00000088;
 
@@ -115,4 +114,11 @@ button {
 
 button:hover {
     background-color: var(--colour-secondary-dark);
+}
+
+
+
+.selected {
+    background-color: var(--colour-secondary);
+    color: var(--colour-on-secondary);
 }

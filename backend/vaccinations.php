@@ -8,3 +8,7 @@ function addVaccination(Vaccination $v){
     $stmt = $conn->prepare("INSERT INTO Vaccination (patient, site, lot, datetime) VALUES (?, ?, ?, ?)");
     $stmt->execute([$v->patient, $v->site, $v->lot, $v->datetime]);
 }
+
+function getVaccinationsForPatient(string $ohip) {
+    
+}
