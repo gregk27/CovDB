@@ -27,12 +27,12 @@
             <h2>Search for Vaccine</h2>
             <p>Search sites to find a vaccine</p>
         </a>
-        <a class="panel clickable" href="">
+        <a class="panel clickable" href="patients">
             <i class="fa-solid fa-syringe"></i>
             <h2>Check Status</h2>
             <p>Check your vaccination status</p>
         </a>
-        <a class="panel clickable" href="">
+        <a class="panel clickable" href="sites">
             <i class="fa-solid fa-user-doctor"></i>
             <h2>Worker Lookup</h2>
             <p>See who's working at a site</p>
