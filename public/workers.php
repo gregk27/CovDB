@@ -37,7 +37,7 @@
             }
             ?>
             <a class="panel clickable <?= $selected ?>" href="?s=<?=$s->name?>" style="width:70%; margin-left:auto; margin-right:auto">
-                <i class="fa-solid fa-user"></i>
+                <i class="fa-solid fa-location-dot"></i>
                 <h2><?= $s->name ?></h2>
                 <p><?= $s->street." ".$s->city." ".$s->province ?></p>
             </a>
@@ -50,6 +50,7 @@
             <div class="panelGrid">
                 <?php foreach($workers as $w):?>
                 <div class="panel">
+                    <i class="fa-solid fa-user-<?=strtolower($w["type"])?>"></i>
                     <h2><?=$w["data"]->firstName." ".$w["data"]->lastName?></h2>
                     <p>
                         <?=$w["type"]?>

@@ -51,6 +51,7 @@
             <div class="panelGrid">
                 <?php foreach($vaccinations as $v):?>
                 <div class="panel">
+                    <i class="fa-solid fa-syringe"></i>
                     <h2><?=$v["lot"]->company?></h2>
                     <p>
                         Lot: <?=$v["lot"]->number?><br/>

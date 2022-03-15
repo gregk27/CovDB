@@ -7,25 +7,24 @@ function validateOHIP(ohip) {
     return /^\d{10}\w?\w?$/.exec(ohip);
 }
 
+function setPatientInputDisabled(disabled) {
+    document.getElementById("firstname").disabled = disabled;
+    document.getElementById("lastname").disabled = disabled;
+    document.getElementById("dob").disabled = disabled;
+}
+
 /**
  * Set patient information from a JSON object
  * @param {Object | null} patient 
  */
 function setPatientData(patient){
-    let fn = document.getElementById("firstname");
-    let ln = document.getElementById("lastname");
-    let dob = document.getElementById("dob");
     if(patient == null){
-        fn.disabled = false;
-        ln.disabled = false;
-        dob.disabled = false;
+        setPatientInputDisabled(false);
     } else {
-        fn.disabled = true;
-        fn.value = patient.firstName;
-        ln.disabled = true;
-        ln.value = patient.lastName;
-        dob.disabled = true;
-        dob.value = patient.dateOfBirth;
+        setPatientInputDisabled(true);
+        document.getElementById("firstname").value = patient.firstName;
+        document.getElementById("lastname").value = patient.lastName;
+        document.getElementById("dob").value = patient.dateOfBirth;
     }
 }
 
@@ -39,6 +38,8 @@ function checkPatient(ohip) {
         setPatientData(null);
         return;
     }
+    document.getElementById("patient-message").innerText = `Please Wait`;
+    setPatientInputDisabled(true);
     fetch(`/api/getPatient?ohip=${ohip}`).then((resp)=>resp.json()).then((res)=> {
         if(res.success){
             document.getElementById("patient-message").innerText = "";
@@ -102,7 +103,13 @@ function validate(){
 async function submit(){
     if(!validate()){
         alert("Invalid input");
+        return;
     }
+    let submitButton = document.getElementById("submit");
+    // Prevent main click animation
+    submitButton.classList.remove("clickable");
+    submitButton.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i>`;
+    submitButton.onclick = () => {};
     // If there's a message, then the patient does not already exist
     if(document.getElementById("patient-message").innerText != "") {
         let data = new URLSearchParams();
@@ -120,6 +127,9 @@ async function submit(){
     data.append("datetime", document.getElementById("date").value);
     data.append("lot", document.getElementById("lot").value);
     await fetch("/api/addVaccination", {method:"post", body:data});
+
+    // Redirect to patient info page
+    window.location.replace(`/patients?p=${document.getElementById("ohip").value}`);
 }
 
 window.onload = () => {

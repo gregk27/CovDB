@@ -31,7 +31,7 @@
     <section class="panelgrid">
         <?php
             foreach(getSitesWithVax($_GET["vax"]) as $s){
-                echo '<a class="panel"><h2>'.$s["site"]->name." - ".$s["doses"].'</h2><p>'.$s["site"]->street.' '.$s["site"]->city.', '.$s["site"]->province.'</p></a>';
+                echo '<a class="panel"><i class="fa-solid fa-location-dot"></i><h2>'.$s["site"]->name." - ".$s["doses"].'</h2><p>'.$s["site"]->street.' '.$s["site"]->city.', '.$s["site"]->province.'</p></a>';
             }
         ?>
     </section>

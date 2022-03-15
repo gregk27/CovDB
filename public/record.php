@@ -43,7 +43,7 @@
         </div>
     </section>
     <br/>
-    <button class="clickable" style="margin:auto; font-size:1.5em; display:block" onclick="submit()">Submit</button>
+    <button id="submit" class="clickable" style="margin:auto; font-size:1.5em; display:block" onclick="submit()">Submit</button>
 </body>
 
 </html>

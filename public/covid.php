@@ -32,7 +32,7 @@
             <h2>Check Status</h2>
             <p>Check your vaccination status</p>
         </a>
-        <a class="panel clickable" href="sites">
+        <a class="panel clickable" href="workers">
             <i class="fa-solid fa-user-doctor"></i>
             <h2>Worker Lookup</h2>
             <p>See who's working at a site</p>

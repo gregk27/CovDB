@@ -8,11 +8,11 @@ function getPatient(string $ohip): Patient | null {
     $stmt = $conn->prepare("SELECT * FROM Patient WHERE OHIP=:ohip");
     $stmt->bindParam(":ohip", $ohip);
     $stmt->execute();
-    $res = $stmt->fetchAll();
-    if(count($res) == 0){
+    $res = $stmt->fetch();
+    if($res == null){
         return null;
     }
-    return Patient::fromAssoc($res[0]);
+    return Patient::fromAssoc($res);
 }
 
 function getPatientAndVaxInfo($ohip) {
