@@ -2,8 +2,9 @@
 // Global include header, contains setup and utils
 
 // Setup database connection
+include_once($_SERVER["DOCUMENT_ROOT"] . "/secrets.php");
 try {
-    $conn = new PDO('mysql:host=localhost;dbname=covidDB;user=root');
+    $conn = new PDO("mysql:host=$dbhost;dbname=$dbname;user=$dbuser;pass=$dbpass");
 } catch (Exception $e) {
     die("Database connection failed with message: ".$e);
 }
