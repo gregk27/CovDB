@@ -30,8 +30,13 @@
     <?php if(isset($_GET["vax"])){ ?>
     <section class="panelgrid">
         <?php
-            foreach(getSitesWithVax($_GET["vax"]) as $s){
-                echo '<a class="panel"><i class="fa-solid fa-location-dot"></i><h2>'.$s["site"]->name." - ".$s["doses"].'</h2><p>'.$s["site"]->street.' '.$s["site"]->city.', '.$s["site"]->province.'</p></a>';
+            $sites = getSitesWithVax($_GET["vax"]);
+            if(count($sites) == 0){
+                echo "<h2 style='text-align:center;'>" . $_GET["vax"] . " is not offered</h2>";
+            } else {
+                foreach($sites as $s){
+                    echo '<a class="panel"><i class="fa-solid fa-location-dot"></i><h2>'.$s["site"]->name." - ".$s["doses"].'</h2><p>'.$s["site"]->street.' '.$s["site"]->city.', '.$s["site"]->province.'</p></a>';
+                }
             }
         ?>
     </section>
