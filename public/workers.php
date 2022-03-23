@@ -56,7 +56,10 @@
                         <?=$w["type"]?>
                     </p>
                 </div>
-                <?php endforeach; ?>
+                <?php endforeach;
+                if(count($workers) == 0)
+                    echo "<h2 style='text-align:center'>No workers at " . $_GET['s'] . "</h2>"
+                ?>
             </div>
         </section>
         <?php endif; ?>
