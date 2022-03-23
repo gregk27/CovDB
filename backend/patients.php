@@ -21,26 +21,26 @@ function getPatientAndVaxInfo($ohip) {
     $stmt = $conn->prepare(
        "SELECT Patient.*, Vaccination.*, Lot.*, nd.* FROM Patient 
         LEFT OUTER JOIN Vaccination ON Vaccination.patient = Patient.OHIP 
-        JOIN Lot ON Vaccination.lot = Lot.number 
+        LEFT JOIN Lot ON Vaccination.lot = Lot.number 
         JOIN (SELECT COUNT(*) AS numDoses FROM Vaccination WHERE Vaccination.Patient=?) nd
         WHERE Patient.OHIP=?
         ORDER BY Vaccination.dateTime DESC");
-    // $stmt->bindParam(":ohip1", $ohip);
-    // $stmt->bindParam(":ohip2", $ohip);
     $stmt->execute([$ohip, $ohip]);
     $res = $stmt->fetchAll();
 
-    if(count($res) == 0) 
-        return ["patient"=>getPatient($ohip), "vaccinations"=>[], "numDoses"=>0];
-        
     // Read patient and count data from first entry (will be identical for all)
     $patient = Patient::fromAssoc($res[0]);
     $numDoses = $res[0]["numDoses"];
 
     $out = [];
-    foreach($res as $row){
-        $out[] = ["datetime"=>$row['datetime'], "lot"=>Lot::fromAssoc($row)];
+    
+    // Lot number null indicates no records exist for patient
+    if($res[0]['lot'] != null){
+        foreach($res as $row){
+            $out[] = ["datetime"=>$row['datetime'], "lot"=>Lot::fromAssoc($row)];
+        }
     }
+
     return ["patient"=>$patient, "vaccinations"=>$out, "numDoses"=>$numDoses];    
 }
 
