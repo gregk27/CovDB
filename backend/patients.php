@@ -31,7 +31,7 @@ function getPatientAndVaxInfo($ohip) {
     $res = $stmt->fetchAll();
 
     if(count($res) == 0) 
-        return ["patient"=>null, "vaccinations"=>[], "numDoses"=>0];
+        return ["patient"=>getPatient($ohip), "vaccinations"=>[], "numDoses"=>0];
         
     // Read patient and count data from first entry (will be identical for all)
     $patient = Patient::fromAssoc($res[0]);

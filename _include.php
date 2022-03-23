@@ -4,7 +4,7 @@
 // Setup database connection
 include_once($_SERVER["DOCUMENT_ROOT"] . "/secrets.php");
 try {
-    $conn = new PDO("mysql:host=$dbhost;dbname=$dbname;user=$dbuser;pass=$dbpass");
+    $conn = new PDO("mysql:host=$dbhost;dbname=$dbname",$dbuser,$dbpass);
 } catch (Exception $e) {
     die("Database connection failed with message: ".$e);
 }

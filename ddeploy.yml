@@ -1,0 +1,8 @@
+context: server-remote
+name: 332-CovDB
+restart: "always"
+network: host
+ports:
+  - 121: 80
+env:
+  - "env": "deploy" 
