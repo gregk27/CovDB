@@ -40,7 +40,7 @@ function checkPatient(ohip) {
     }
     document.getElementById("patient-message").innerText = `Please Wait`;
     setPatientInputDisabled(true);
-    fetch(`/api/getPatient?ohip=${ohip}`).then((resp)=>resp.json()).then((res)=> {
+    fetch(`/public/api/getPatient.php?ohip=${ohip}`).then((resp)=>resp.json()).then((res)=> {
         if(res.success){
             document.getElementById("patient-message").innerText = "";
             setPatientData(res.patient);
@@ -62,7 +62,7 @@ function setDates(site){
     // Disable while updating.
     dateInput.disabled = true;
     lotInput.disabled = true;
-    fetch(`/api/getSiteData?site=${site}`).then((resp)=>resp.json()).then((res)=> {
+    fetch(`/public/api/getSiteData.php?site=${site}`).then((resp)=>resp.json()).then((res)=> {
         if(res.success){
             // Remove existing options
             for(let i=dateInput.options.length-1; i>=0; i--){
@@ -118,7 +118,7 @@ async function submit(){
         data.append("lastName", document.getElementById("lastname").value);
         data.append("dateOfBirth", document.getElementById("dob").value);
         // Create new patient in background
-        await fetch("/api/addPatient", {method:"post", body:data});  
+        await fetch("/public/api/addPatient.php", {method:"post", body:data});  
     }
     // Create vaccination recotd
     let data = new URLSearchParams();
@@ -126,10 +126,10 @@ async function submit(){
     data.append("site", document.getElementById("site").value);
     data.append("datetime", document.getElementById("date").value);
     data.append("lot", document.getElementById("lot").value);
-    await fetch("/api/addVaccination", {method:"post", body:data});
+    await fetch("/public/api/addVaccination.php", {method:"post", body:data});
 
     // Redirect to patient info page
-    window.location.replace(`/patients?p=${document.getElementById("ohip").value}`);
+    window.location.replace(`/public/patients.php?p=${document.getElementById("ohip").value}`);
 }
 
 window.onload = () => {

@@ -17,22 +17,22 @@
 <body>
     <?php insertHeader(); ?>
     <section class="panelgrid">
-        <a class="panel clickable" href="/record">
+        <a class="panel clickable" href="record.php">
             <i class="fa-solid fa-file-medical"></i>
             <h2>Record Vaccination</h2>
             <p>Submit a record of your vaccination</p>
         </a>
-        <a class="panel clickable" href="availability">
+        <a class="panel clickable" href="availability.php">
             <i class="fa-solid fa-magnifying-glass"></i>
             <h2>Search for Vaccine</h2>
             <p>Search sites to find a vaccine</p>
         </a>
-        <a class="panel clickable" href="patients">
+        <a class="panel clickable" href="patients.php">
             <i class="fa-solid fa-syringe"></i>
             <h2>Check Status</h2>
             <p>Check your vaccination status</p>
         </a>
-        <a class="panel clickable" href="workers">
+        <a class="panel clickable" href="workers.php">
             <i class="fa-solid fa-user-doctor"></i>
             <h2>Worker Lookup</h2>
             <p>See who's working at a site</p>
