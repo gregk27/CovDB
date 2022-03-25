@@ -32,6 +32,19 @@ header {
     box-shadow: 0.1em 0.1em 0.1em #00000088;
 }
 
+header h1 {
+    margin: 0;
+}
+
+header a {
+    text-decoration: none;
+    color: inherit;
+}
+
+header img {
+    height:1.5em;
+}
+
 .panelgrid {
     display: flex;
     flex-wrap: wrap;

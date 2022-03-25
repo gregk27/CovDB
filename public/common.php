@@ -4,11 +4,13 @@ function insertHeader(string $name = null){
     // Use defined name if provided and not otherwise specified
     if($name == null && defined("NAME")) $name = NAME;
     echo "<header>";
+    echo "<h1><a href='/public/covid.php'><img src='/public/logo.svg'></img></a><span style='margin-left:0.5em'>";
     if($name == null){
-        echo "<h1><a href='/public/covid.php' style='text-decoration:none;color:inherit'>Covid Vaccine Database</a></h1>";
+        echo "Covid Vaccine Database";
     } else {
-        echo "<h1><a href='/public/covid.php' style='text-decoration:none;color:inherit'>CoVDB</a> - $name</h1>";
+        echo "$name";
     }
+    echo "</span></h1>";
     echo "</header>";
 }
 
