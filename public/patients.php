@@ -23,6 +23,24 @@
         #info {
             margin: 0 2em 0 3em;
         }
+        table {
+            width:80%;
+            margin-left:auto;
+            margin-right:auto;
+            border-collapse:collapse;
+            text-align:center;
+        }
+        tr:nth-child(even){
+            background-color:var(--colour-surface);
+        }
+        td {
+            border-left:1em solid #00000000;
+            border-right:1em solid #00000000;
+        }
+        #info .button{
+            float:right;
+            margin:2em;
+        }
     </style>
 </head>
 <body>
@@ -35,7 +53,7 @@
                 $selected = "selected";
             }
             ?>
-            <a class="panel clickable <?= $selected ?>" href="?p=<?=$p->OHIP?>" style="width:70%; margin-left:auto; margin-right:auto">
+            <a class="panel clickable <?= $selected ?>" href="?p=<?=$p->OHIP . (isset($_GET['view']) ? "&view=".$_GET['view'] : "")?>" style="width:70%; margin-left:auto; margin-right:auto">
                 <i class="fa-solid fa-user"></i>
                 <h2><?= $p->firstName." ".$p->lastName ?></h2>
                 <p><?= $p->OHIP ?></p>
@@ -48,18 +66,35 @@
         <section id="info">
             <h2>Vaccination status for <?="$patient->firstName $patient->lastName"?>:</h2>
             <h3>Total doses received: <?= $numDoses?></h3>
-            <div class="panelGrid">
-                <?php foreach($vaccinations as $v):?>
-                <div class="panel">
-                    <i class="fa-solid fa-syringe"></i>
-                    <h2><?=$v["lot"]->company?></h2>
-                    <p>
-                        Lot: <?=$v["lot"]->number?><br/>
-                        Administered: <?=$v["datetime"]?><br/>
-                    </p>
+            <?php if(isset($_GET['view']) && $_GET['view']=='table'): ?>
+                <div>
+                   <table>
+                    <tr><th>Company</th><th>Lot</th><th>Date/Time</th></tr>
+                    <?php foreach($vaccinations as $v):?>
+                    <tr>
+                        <td><?=$v["lot"]->company?></td>
+                        <td><?=$v["lot"]->number?></td>
+                        <td><?=$v["datetime"]?></td>
+                    </tr>
+                    <?php endforeach; ?> 
+                    </table>
                 </div>
-                <?php endforeach; ?>
-            </div>
+                <a href="?p=<?=$_GET['p']?>" class="button">View Panels</a>
+            <?php else: ?>
+                <div class="panelGrid">
+                    <?php foreach($vaccinations as $v):?>
+                    <div class="panel">
+                        <i class="fa-solid fa-syringe"></i>
+                        <h2><?=$v["lot"]->company?></h2>
+                        <p>
+                            Lot: <?=$v["lot"]->number?><br/>
+                            Administered: <?=$v["datetime"]?><br/>
+                        </p>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <a href="?p=<?=$_GET['p']?>&view=table" class="button">View Table</a>
+            <?php endif ?>
         </section>
         <?php endif; ?>
     </div>
