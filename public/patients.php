@@ -8,45 +8,12 @@
 ?>
 <head>
     <?php insertMeta(); ?>
-    <script src='main.js'></script>
-    <style>
-        #content {
-            display:grid;
-            grid-template-columns: 30% auto;
-            height: 70vh;
-        }
-        #users {
-            overflow-x:hidden;
-            overflow-y:scroll;
-            height:inherit;
-        }
-        #info {
-            margin: 0 2em 0 3em;
-        }
-        table {
-            width:80%;
-            margin-left:auto;
-            margin-right:auto;
-            border-collapse:collapse;
-            text-align:center;
-        }
-        tr:nth-child(even){
-            background-color:var(--colour-surface);
-        }
-        td {
-            border-left:1em solid #00000000;
-            border-right:1em solid #00000000;
-        }
-        #info .button{
-            float:right;
-            margin:2em;
-        }
-    </style>
+    <link rel='stylesheet' type='text/css' href='/listpage.css'>
 </head>
 <body>
     <?php insertHeader(); ?>
     <div id="content">
-        <section id="users">
+        <section id="sidebar">
         <?php foreach(getPatients("lastName") as $p):
             $selected = "";
             if(isset($_GET['p']) && $_GET['p'] == $p->OHIP){
