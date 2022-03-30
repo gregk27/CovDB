@@ -25,7 +25,7 @@ td {
     border-left:1em solid #00000000;
     border-right:1em solid #00000000;
 }
-#info .button{
+#info button{
     float:right;
     margin:2em;
 }

@@ -21,7 +21,7 @@
                 $selected = "selected";
             }
             ?>
-            <a class="panel clickable <?= $selected ?>" href="?s=<?=$s->name . (isset($_GET['view']) ? "&view=".$_GET['view'] : "")?>" style="width:70%; margin-left:auto; margin-right:auto">
+            <a class="panel clickable <?= $selected ?>" href="?s=<?=$s->name?>" style="width:70%; margin-left:auto; margin-right:auto">
                 <i class="fa-solid fa-location-dot"></i>
                 <h2><?= $s->name ?></h2>
                 <p><?= $s->street." ".$s->city." ".$s->province ?></p>
@@ -33,7 +33,7 @@
              ?>
         <section id="info">
             <h2>Employees at <?=$_GET['s']?>:</h2>
-            <?php if(isset($_GET['view']) && $_GET['view']=='table'): ?>
+            <?php if(isset($_COOKIE['view']) && $_COOKIE['view']=='table'): ?>
                 <div>
                    <table>
                     <tr><th>Firstname</th><th>Lastname</th><th>Job</th></tr>
@@ -46,7 +46,7 @@
                     <?php endforeach; ?> 
                     </table>
                 </div>
-                <a href="?s=<?=$_GET['s']?>" class="button">View Panels</a>
+                <button onclick="document.cookie='view=;';window.location.reload()">View Panels</button>
             <?php else: ?>    
                 <div class="panelGrid">
                     <?php foreach($workers as $w):?>
@@ -62,7 +62,7 @@
                         echo "<h2 style='text-align:center'>No workers at " . $_GET['s'] . "</h2>"
                     ?>
                 </div>
-                <a href="?s=<?=$_GET['s']?>&view=table" class="button">View Table</a>
+                <button onclick="document.cookie='view=table;';window.location.reload()">View Table</button>
             <?php endif; ?>
         </section>
         <?php endif; ?>
