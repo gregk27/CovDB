@@ -8,27 +8,12 @@
 ?>
 <head>
     <?php insertMeta(); ?>
-    <script src='main.js'></script>
-    <style>
-        #content {
-            display:grid;
-            grid-template-columns: 30% auto;
-            height: 70vh;
-        }
-        #users {
-            overflow-x:hidden;
-            overflow-y:scroll;
-            height:inherit;
-        }
-        #info {
-            margin: 0 2em 0 3em;
-        }
-    </style>
+    <link rel='stylesheet' type='text/css' href='/public/listpage.css'>
 </head>
 <body>
     <?php insertHeader(); ?>
     <div id="content">
-        <section id="users">
+        <section id="sidebar">
         <?php foreach(getPatients("lastName") as $p):
             $selected = "";
             if(isset($_GET['p']) && $_GET['p'] == $p->OHIP){
@@ -48,18 +33,35 @@
         <section id="info">
             <h2>Vaccination status for <?="$patient->firstName $patient->lastName"?>:</h2>
             <h3>Total doses received: <?= $numDoses?></h3>
-            <div class="panelGrid">
-                <?php foreach($vaccinations as $v):?>
-                <div class="panel">
-                    <i class="fa-solid fa-syringe"></i>
-                    <h2><?=$v["lot"]->company?></h2>
-                    <p>
-                        Lot: <?=$v["lot"]->number?><br/>
-                        Administered: <?=$v["datetime"]?><br/>
-                    </p>
+            <?php if(isset($_COOKIE['view']) && $_COOKIE['view']=='table'): ?>
+                <div>
+                   <table>
+                    <tr><th>Company</th><th>Lot</th><th>Date/Time</th></tr>
+                    <?php foreach($vaccinations as $v):?>
+                    <tr>
+                        <td><?=$v["lot"]->company?></td>
+                        <td><?=$v["lot"]->number?></td>
+                        <td><?=$v["datetime"]?></td>
+                    </tr>
+                    <?php endforeach; ?> 
+                    </table>
                 </div>
-                <?php endforeach; ?>
-            </div>
+                <button onclick="document.cookie='view=;';window.location.reload()">View Panels</button>
+            <?php else: ?>
+                <div class="panelGrid">
+                    <?php foreach($vaccinations as $v):?>
+                    <div class="panel">
+                        <i class="fa-solid fa-syringe"></i>
+                        <h2><?=$v["lot"]->company?></h2>
+                        <p>
+                            Lot: <?=$v["lot"]->number?><br/>
+                            Administered: <?=$v["datetime"]?><br/>
+                        </p>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <button onclick="document.cookie='view=table;';window.location.reload()">View Table</button>
+            <?php endif ?>
         </section>
         <?php endif; ?>
     </div>

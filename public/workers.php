@@ -9,27 +9,12 @@
 ?>
 <head>
     <?php insertMeta(); ?>
-    <script src='main.js'></script>
-    <style>
-        #content {
-            display:grid;
-            grid-template-columns: 30% auto;
-            height: 70vh;
-        }
-        #sites {
-            overflow-x:hidden;
-            overflow-y:scroll;
-            height:inherit;
-        }
-        #info {
-            margin: 0 2em 0 3em;
-        }
-    </style>
+    <link rel='stylesheet' type='text/css' href='/public/listpage.css'>
 </head>
 <body>
     <?php insertHeader(); ?>
     <div id="content">
-        <section id="sites">
+        <section id="sidebar">
         <?php foreach(getSites() as $s):
             $selected = "";
             if(isset($_GET['s']) && $_GET['s'] == $s->name){
@@ -47,20 +32,38 @@
              $workers = getWorkers($_GET['s']);
              ?>
         <section id="info">
-            <div class="panelGrid">
-                <?php foreach($workers as $w):?>
-                <div class="panel">
-                    <i class="fa-solid fa-user-<?=strtolower($w["type"])?>"></i>
-                    <h2><?=$w["data"]->firstName." ".$w["data"]->lastName?></h2>
-                    <p>
-                        <?=$w["type"]?>
-                    </p>
+            <h2>Employees at <?=$_GET['s']?>:</h2>
+            <?php if(isset($_COOKIE['view']) && $_COOKIE['view']=='table'): ?>
+                <div>
+                   <table>
+                    <tr><th>Firstname</th><th>Lastname</th><th>Job</th></tr>
+                    <?php foreach($workers as $w):?>
+                    <tr>
+                        <td><?=$w["data"]->firstName?></td>
+                        <td><?=$w["data"]->lastName?></td>
+                        <td><?=$w["type"]?></td>
+                    </tr>
+                    <?php endforeach; ?> 
+                    </table>
                 </div>
-                <?php endforeach;
-                if(count($workers) == 0)
-                    echo "<h2 style='text-align:center'>No workers at " . $_GET['s'] . "</h2>"
-                ?>
-            </div>
+                <button onclick="document.cookie='view=;';window.location.reload()">View Panels</button>
+            <?php else: ?>    
+                <div class="panelGrid">
+                    <?php foreach($workers as $w):?>
+                    <div class="panel">
+                        <i class="fa-solid fa-user-<?=strtolower($w["type"])?>"></i>
+                        <h2><?=$w["data"]->firstName." ".$w["data"]->lastName?></h2>
+                        <p>
+                            <?=$w["type"]?>
+                        </p>
+                    </div>
+                    <?php endforeach;
+                    if(count($workers) == 0)
+                        echo "<h2 style='text-align:center'>No workers at " . $_GET['s'] . "</h2>"
+                    ?>
+                </div>
+                <button onclick="document.cookie='view=table;';window.location.reload()">View Table</button>
+            <?php endif; ?>
         </section>
         <?php endif; ?>
     </div>

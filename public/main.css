@@ -115,7 +115,7 @@ form>.message {
     height:1em;
 }
 
-button {
+button, .button {
     background-color: var(--colour-secondary);
     color: var(--colour-on-secondary);
     border: none;
@@ -123,9 +123,10 @@ button {
     padding: 0.5em 2em;
     transition: color 100ms;
     cursor: pointer;
+    text-decoration: none;
 }
 
-button:hover {
+button:hover, .button:hover {
     background-color: var(--colour-secondary-dark);
 }
 
