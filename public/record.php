@@ -19,7 +19,7 @@
             <h2>Patient Information</h2>
             <form id="patient-info">
                 <label for="ohip">OHIP Number:</label><input id="ohip" oninput="checkPatient(this.value)"/>
-                <p class="message" id="patient-message">Error message</p>
+                <p class="message" id="patient-message"></p>
                 <label for="firstname">First name:</label><input id="firstname" />
                 <label for="lastname">First name:</label><input id="lastname" />
                 <label for="dob">Date of Birth:</label><input id="dob" type="date" />
