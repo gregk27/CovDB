@@ -1,8 +1,15 @@
 <?php
+// Functions relating to patient information
+
 include_once($_SERVER["DOCUMENT_ROOT"] . "/_include.php");
 include_once(MODELS_DIR."Patient.php");
 include_once(MODELS_DIR."Lot.php");
 
+/**
+ * Get information about a specified patient.
+ * @param string $ohip Patient's OHIP number
+ * @return Patient patient object representing specified patient
+ */
 function getPatient(string $ohip): Patient | null {
     global $conn;
     $stmt = $conn->prepare("SELECT * FROM Patient WHERE OHIP=:ohip");
@@ -15,7 +22,20 @@ function getPatient(string $ohip): Patient | null {
     return Patient::fromAssoc($res);
 }
 
-function getPatientAndVaxInfo($ohip) {
+/**
+ * Get a specicified patient and their vaccination information.
+ * @param string $ohip Patient's OHIP number
+ * @return array with structure:
+ * {
+ *   patient: Patient,
+ *   vaccinations: [
+ *     datetime: string,
+ *     lot: Lot 
+ *   ],
+ *   numDoeses: number,
+ * }
+ */
+function getPatientAndVaxInfo(string $ohip) {
     global $conn;
     // Get table with patient's vax records
     $stmt = $conn->prepare(
@@ -44,6 +64,11 @@ function getPatientAndVaxInfo($ohip) {
     return ["patient"=>$patient, "vaccinations"=>$out, "numDoses"=>$numDoses];    
 }
 
+/**
+ * Get a list of all patients in the database.
+ * @param string $order Attribute to sort by, default OHIP
+ * @return Patient[] with all patients in DB
+ */
 function getPatients(string $order = "OHIP") {
     global $conn;
     // Use array searching to sanitize column name
@@ -61,6 +86,10 @@ function getPatients(string $order = "OHIP") {
     return $out;
 }
 
+/**
+ * Add a patient to the database
+ * @param Patient $p patient data to be added
+ */
 function addPatient(Patient $p){
     global $conn;
     $stmt = $conn->prepare("INSERT INTO Patient (OHIP, firstName, lastName, dateOfBirth) VALUES (?, ?, ?, ?)");

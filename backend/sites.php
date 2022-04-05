@@ -1,8 +1,14 @@
 <?php
+// Functions relating to site information
+
 include_once($_SERVER["DOCUMENT_ROOT"] . "/_include.php");
 include_once(MODELS_DIR."Site.php");
 include_once(MODELS_DIR."Nurse.php");
 
+/**
+ * Get a list of all sites in the database.
+ * @return Site[] with all sites in the DB
+ */
 function getSites() {
     global $conn;
     $stmt = $conn->prepare("SELECT * FROM Site");
@@ -14,6 +20,11 @@ function getSites() {
     return $out;
 }
 
+/**
+ * Get a list of dates offered by a specified site.
+ * @param string $site Name of site
+ * @return string[] with dates in ISO 8601 format
+ */
 function getSiteDates(string $site) {
     global $conn;
     $stmt = $conn->prepare("SELECT date FROM SiteDate WHERE site=:site");
@@ -24,6 +35,11 @@ function getSiteDates(string $site) {
     return $out;
 }
 
+/**
+ * Get a list of vaccine lot numebrs delivered to a specified site.
+ * @param string $site Name of site
+ * @return string[] with lot numbers
+ */
 function getSiteLotNumbers(string $site) {
     global $conn;
     $stmt = $conn->prepare("SELECT number FROM Lot WHERE site=:site");
@@ -34,6 +50,15 @@ function getSiteLotNumbers(string $site) {
     return $out;
 }
 
+/**
+ * Get the workers at a specified site.
+ * @param string $site Name of site
+ * @return array with structure
+ * {
+ *   type: "Doctor"|"Nurse",
+ *   data: Nurse 
+ * }
+ */
 function getWorkers(string $site) {
     global $conn;
     $stmt = $conn->prepare(
