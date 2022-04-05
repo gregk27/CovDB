@@ -3,15 +3,19 @@
 function insertHeader(string $name = null){
     // Use defined name if provided and not otherwise specified
     if($name == null && defined("NAME")) $name = NAME;
-    echo "<header>";
-    echo "<h1><a href='/public/covid.php'><img src='/public/logo.svg'></img></a><span style='margin-left:0.5em'>";
-    if($name == null){
-        echo "Covid Vaccine Database";
-    } else {
-        echo "$name";
-    }
-    echo "</span></h1>";
-    echo "</header>";
+    ?>
+    <header>
+        <h1>
+            <a href='/'><img src='/public/logo.svg'></img></a>
+            <span style='margin-left:0.5em'>
+                <?= $name == null ? "Covid Vaccine Database" : $name ?>
+            </span>
+        </h1>
+        <nav style="margin-left:-1em">
+            <a href="/public/covid.php">Home</a>
+        </nav>
+    </header>
+    <?php
 }
 
 function insertMeta(string $name = null){
